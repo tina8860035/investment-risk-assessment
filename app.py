@@ -437,7 +437,7 @@ if submitted:
     st.session_state.assessment_complete = True
     
     # 重新載入頁面以顯示結果
-    st.experimental_rerun()
+    st.rerun()
 
 # 如果評估已完成，顯示結果
 if st.session_state.assessment_complete:
@@ -770,7 +770,7 @@ if st.session_state.assessment_complete:
         st.session_state.user_answers = {}
         st.session_state.results = {}
         # 重新載入頁面
-        st.experimental_rerun()
+        st.rerun()
     
     # PDF報告生成函數
     def create_pdf():
