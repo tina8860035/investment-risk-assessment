@@ -858,8 +858,8 @@ if st.session_state.assessment_complete:
 
     if pdf_bytes is not None:
         # 調試信息
-        st.write(f"PDF數據類型: {type(pdf_bytes)}")
-        st.write(f"PDF數據長度: {len(pdf_bytes) if pdf_bytes else 'None'}")
+        # st.write(f"PDF數據類型: {type(pdf_bytes)}")
+        # st.write(f"PDF數據長度: {len(pdf_bytes) if pdf_bytes else 'None'}")
         
         # 確保pdf_bytes是bytes類型
         try:
