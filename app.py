@@ -840,7 +840,11 @@ if st.session_state.assessment_complete:
             pdf.multi_cell(0, 10, txt="This system is for academic research and educational purposes only. The data and analysis provided are for reference only and DO NOT constitute investment or financial advice. Users should make their own investment decisions and bear the associated risks. The author of this system is not responsible for any investment behavior and does not assume any liability for losses.")
             
             # 返回PDF字節
-            return pdf.output(dest='S').encode('latin-1')
+            pdf_output = pdf.output(dest='S')
+            if isinstance(pdf_output, str):
+                return pdf_output.encode('latin-1')
+            else:
+                return pdf_output  # 如果已經是bytes或bytearray，直接返回
         
         except Exception as e:
             st.error(f"生成PDF時發生錯誤: {str(e)}")
