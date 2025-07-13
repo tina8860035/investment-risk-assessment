@@ -875,7 +875,7 @@ if st.session_state.assessment_complete:
                 # 生成下載連結
                 b64 = base64.b64encode(pdf_bytes).decode()
                 current_date = datetime.now().strftime("%Y%m%d")
-                pdf_filename = f"投資風險評估報告_{current_date}.pdf"
+                pdf_filename = f"Investment Risk Assessment Report_{current_date}.pdf"
                 href = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">下載PDF評估報告</a>'
                 st.markdown(href, unsafe_allow_html=True)
         except Exception as e:
