@@ -851,19 +851,33 @@ if st.session_state.assessment_complete:
     
     # 生成PDF並提供下載
     pdf_bytes = create_pdf()
-    
-    # 生成下載連結
-    # 確保pdf_bytes是bytes類型
-    if isinstance(pdf_bytes, bytearray):
-        pdf_bytes = bytes(pdf_bytes)
-    elif isinstance(pdf_bytes, str):
-        pdf_bytes = pdf_bytes.encode('latin-1')
 
-    b64 = base64.b64encode(pdf_bytes).decode()
-    current_date = datetime.now().strftime("%Y%m%d")
-    pdf_filename = f"投資風險評估報告_{current_date}.pdf"
-    href = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">下載PDF評估報告</a>'
-    st.markdown(href, unsafe_allow_html=True)
+    if pdf_bytes is not None:
+        # 調試信息
+        st.write(f"PDF數據類型: {type(pdf_bytes)}")
+        st.write(f"PDF數據長度: {len(pdf_bytes) if pdf_bytes else 'None'}")
+        
+        # 確保pdf_bytes是bytes類型
+        try:
+            if isinstance(pdf_bytes, bytearray):
+                pdf_bytes = bytes(pdf_bytes)
+            elif isinstance(pdf_bytes, str):
+                pdf_bytes = pdf_bytes.encode('latin-1')
+            elif not isinstance(pdf_bytes, bytes):
+                st.error(f"無法處理的PDF數據類型: {type(pdf_bytes)}")
+                pdf_bytes = None
+            
+            if pdf_bytes:
+                # 生成下載連結
+                b64 = base64.b64encode(pdf_bytes).decode()
+                current_date = datetime.now().strftime("%Y%m%d")
+                pdf_filename = f"投資風險評估報告_{current_date}.pdf"
+                href = f'<a href="data:application/pdf;base64,{b64}" download="{pdf_filename}">下載PDF評估報告</a>'
+                st.markdown(href, unsafe_allow_html=True)
+        except Exception as e:
+            st.error(f"處理PDF數據時發生錯誤: {str(e)}")
+    else:
+        st.error("PDF生成失敗，請稍後再試")
     
     # 添加免責聲明
     st.markdown("""
